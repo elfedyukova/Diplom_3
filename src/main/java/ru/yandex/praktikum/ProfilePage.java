@@ -3,9 +3,9 @@ package ru.yandex.praktikum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ProfilePage extends BasePage{
+public class ProfilePage extends BasePage {
 
-    private By LogOtButton = By.xpath("//*[@id=\"root\"]/div/main/div/nav/ul/li[3]/button");
+    private By LogOtButton = By.xpath("//button[contains(text(),'Выход')]");
 
     public ProfilePage(WebDriver webDriver) {
         super(webDriver);

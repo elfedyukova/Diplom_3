@@ -5,21 +5,19 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.concurrent.TimeUnit;
-public class BaseUiTest {
+
+public class BaseRegisterTest {
 
     protected static WebDriver webDriver;
 
     @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.setBinary("");
         webDriver = new ChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        webDriver.get("https://stellarburgers.nomoreparties.site/");
+        webDriver.get("https://stellarburgers.nomoreparties.site/register");
     }
 
     @AfterClass

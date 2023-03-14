@@ -5,11 +5,14 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
 
-    private By RegisterButton = By.xpath("//*[@id=\"root\"]/div/main/div/div/p[1]/a");
-    private By EmailButton = By.xpath("//*[@id=\"root\"]/div/main/div/form/fieldset[1]/div/div/input");
-    private By PasswordButton = By.xpath("//*[@id=\"root\"]/div/main/div/form/fieldset[2]/div/div/input");
-    private By InputButton = By.xpath("//*[@id=\"root\"]/div/main/div/form/button");
-    private By ResetButton = By.xpath("//*[@id=\"root\"]/div/main/div/div/p[2]/a");
+    private By RegisterButton = By.xpath("//a[contains(text(),'Зарегистрироваться')]");
+    private By EmailButton = By.xpath("//input[@name='name']");
+    private By PasswordButton = By.xpath("//input[@name='Пароль']");
+    private By InputButton = By.xpath("//button[contains(text(),'Войти')]");
+    private By ResetButton = By.xpath("//a[contains(text(),'Восстановить пароль')]");
+    private By ConstructorButton = By.xpath("//p[contains(text(),'Конструктор')]");
+    private By ConstructorText = By.xpath("//h1[contains(text(),'Соберите бургер')]");
+    private By LogoButton = By.cssSelector("svg");
 
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -34,5 +37,31 @@ public class LoginPage extends BasePage {
 
     public void clickResetButton() {
         webDriver.findElement(ResetButton).click();
+    }
+
+    public String getInputText() {
+        String text = webDriver.findElement(InputButton).getText();
+        return text;
+    }
+
+    public boolean findElement() {
+        return webDriver.findElement(InputButton).isDisplayed();
+    }
+
+    public boolean constructorPage() {
+        return webDriver.findElement(ConstructorText).isDisplayed();
+    }
+
+    public void clickConstructorButton() {
+        webDriver.findElement(ConstructorButton).click();
+    }
+
+    public String getConstructorText() {
+        String text = webDriver.findElement(ConstructorText).getText();
+        return text;
+    }
+
+    public void clickLogoButton() {
+        webDriver.findElement(LogoButton).click();
     }
 }

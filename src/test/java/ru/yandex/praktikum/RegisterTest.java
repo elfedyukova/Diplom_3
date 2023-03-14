@@ -1,68 +1,71 @@
 package ru.yandex.praktikum;
 
-import org.junit.Assert;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.openqa.selenium.By;
+import org.junit.jupiter.api.DisplayName;
 
-public class RegisterTest extends BaseUiTest {
+import static org.junit.Assert.assertEquals;
+
+public class RegisterTest extends BaseRegisterTest {
+
+    private String name = "Елена";
+    private String email = "test@yandex.ru";
+    private String randomEmail = RandomStringUtils.randomAlphanumeric(6) + "@yandex.ru";
+    private String password = "tester";
 
     @Test
+    @DisplayName("Регистрация с паролем менее 6 символов")
     public void registerShortPassword() {
 
-        MainPage mainPage = new MainPage(webDriver);
-        mainPage.clickPersonalButton();
-
-        LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.clickRegisterButton();
-
         RegisterPage registerPage = new RegisterPage(webDriver);
-        registerPage.enterName("Елена");
-        registerPage.enterEmail("test@yandex.ru");
+        registerPage.enterName(name);
+        registerPage.enterEmail(email);
         registerPage.enterPassword("test");
         registerPage.clickRegistersButton();
 
-        boolean isDisplayed = webDriver.findElement(By.xpath("/html/body/div/div/main/div/form/fieldset[3]/div/p")).isDisplayed();
+        boolean isDisplayed = registerPage.findElement();
+        assertEquals(isDisplayed, true);
+
         String expected = "Некорректный пароль";
-        String actual = webDriver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form/fieldset[3]/div/p")).getText();
-        Assert.assertEquals(expected, actual);
+        String actual = registerPage.getErrorText();
+        assertEquals(expected, actual);
     }
 
     @Test
+    @DisplayName("Регистрация существующего пользователя")
     public void registerUserExist() {
 
-        MainPage mainPage = new MainPage(webDriver);
-        mainPage.clickPersonalButton();
-
-        LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.clickRegisterButton();
-
         RegisterPage registerPage = new RegisterPage(webDriver);
-        registerPage.enterName("Елена");
-        registerPage.enterEmail("test@yandex.ru");
-        registerPage.enterPassword("tester");
+        registerPage.enterName(name);
+        registerPage.enterEmail(email);
+        registerPage.enterPassword(password);
         registerPage.clickRegistersButton();
 
+        boolean isDisplayed = registerPage.findElement();
+        assertEquals(isDisplayed, true);
+
         String expected = "Такой пользователь уже существует";
-        String actual = webDriver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/p")).getText();
-        Assert.assertEquals(expected, actual);
+        String actual = registerPage.getErrorText();
+        assertEquals(expected, actual);
     }
 
     @Test
+    @DisplayName("Успешная регистрация")
     public void registerSuccess() {
 
-        MainPage mainPage = new MainPage(webDriver);
-        mainPage.clickPersonalButton();
-
-        LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.clickRegisterButton();
-
         RegisterPage registerPage = new RegisterPage(webDriver);
-        registerPage.enterName("Елена");
-        registerPage.enterEmail("test88@yandex.ru");
-        registerPage.enterPassword("tester");
+        registerPage.enterName(name);
+        registerPage.enterEmail(randomEmail);
+        registerPage.enterPassword(password);
         registerPage.clickRegistersButton();
 
-        boolean isDisplayed = webDriver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form/button")).isDisplayed();
+        LoginPage loginPage = new LoginPage(webDriver);
+        boolean isDisplayed = loginPage.findElement();
+        assertEquals(isDisplayed, true);
+
+        String expected = "Войти";
+        String actual = loginPage.getInputText();
+        assertEquals(expected, actual);
     }
 
 }
